@@ -48,7 +48,7 @@ interface DataType {
 // Fetch spotlight data from API
 const getSpotlightData = async (): Promise<DataType[]> => {
   try {
-    const response = await fetch('https://news-backend-ashy.vercel.app/api/news/public');
+    const response = await fetch('https://news-vercel-ten.vercel.app/api/news/public');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -84,7 +84,7 @@ export { getSpotlightData };
 // Fetch weekly data from API
 export const getWeeklyData = async (): Promise<DataType[]> => {
   try {
-    const response = await fetch('https://news-backend-ashy.vercel.app/api/subnews/public');
+    const response = await fetch('https://news-vercel-ten.vercel.app/api/subnews/public');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -118,7 +118,7 @@ export const getWeeklyData = async (): Promise<DataType[]> => {
 // Fetch weekly sidebar data from API
 export const getWeeklySidebarData = async (): Promise<DataType[]> => {
   try {
-    const response = await fetch('https://news-backend-ashy.vercel.app/api/mini_news/public');
+    const response = await fetch('https://news-vercel-ten.vercel.app/api/mini_news/public');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -582,7 +582,7 @@ export { weeklySidebarData };
 // Category spotlight titles - dynamically generated from API
 const getCategoryTitles = async (): Promise<Record<string, string>> => {
    try {
-      const response = await fetch('https://news-backend-ashy.vercel.app/api/categories/public');
+      const response = await fetch('https://news-vercel-ten.vercel.app/api/categories/public');
       if (!response.ok) {
          throw new Error(`HTTP error! status: ${response.status}`);
       }

@@ -16,7 +16,7 @@ interface MenuItem {
 
 const getMenuData = async (): Promise<MenuItem[]> => {
    try {
-      const response = await fetch('https://news-backend-ashy.vercel.app/api/categories/public');
+      const response = await fetch('https://news-vercel-ten.vercel.app/api/categories/public');
       if (!response.ok) {
          throw new Error(`HTTP error! status: ${response.status}`);
       }

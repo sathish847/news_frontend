@@ -96,11 +96,11 @@ export async function generateStaticParams() {
 
    // Fetch slugs from APIs during build time
    const apiEndpoints = [
-      'https://news-backend-ashy.vercel.app/api/news/public',
-      'https://news-backend-ashy.vercel.app/api/subnews/public',
-      'https://news-backend-ashy.vercel.app/api/mini_news/public',
-      'https://news-backend-ashy.vercel.app/api/trending_news/public',
-      'https://news-backend-ashy.vercel.app/api/main_news/public'
+      'https://news-vercel-ten.vercel.app/api/news/public',
+      'https://news-vercel-ten.vercel.app/api/subnews/public',
+      'https://news-vercel-ten.vercel.app/api/mini_news/public',
+      'https://news-vercel-ten.vercel.app/api/trending_news/public',
+      'https://news-vercel-ten.vercel.app/api/main_news/public'
    ];
 
    for (const endpoint of apiEndpoints) {
@@ -198,7 +198,7 @@ export default async function Page({ params }: Props) {
    // If not found in static data, try to fetch from news API
    if (!single_blog) {
       try {
-         const response = await fetch('https://news-backend-ashy.vercel.app/api/news/public');
+         const response = await fetch('https://news-vercel-ten.vercel.app/api/news/public');
 
          if (response.ok) {
             const data = await response.json();
@@ -240,7 +240,7 @@ export default async function Page({ params }: Props) {
    // If still not found, try to fetch from subnews API
    if (!single_blog) {
       try {
-         const response = await fetch('https://news-backend-ashy.vercel.app/api/subnews/public');
+         const response = await fetch('https://news-vercel-ten.vercel.app/api/subnews/public');
          if (response.ok) {
             const data = await response.json();
             const apiBlog = data.data.find((item: any) => item.slug === blogId);
@@ -281,7 +281,7 @@ export default async function Page({ params }: Props) {
    // If still not found, try to fetch from mini_news API
    if (!single_blog) {
       try {
-         const response = await fetch('https://news-backend-ashy.vercel.app/api/mini_news/public');
+         const response = await fetch('https://news-vercel-ten.vercel.app/api/mini_news/public');
          if (response.ok) {
             const data = await response.json();
             const apiBlog = data.data.find((item: any) => item.slug === blogId);
@@ -322,7 +322,7 @@ export default async function Page({ params }: Props) {
    // If still not found, try to fetch from trending_news API
    if (!single_blog) {
       try {
-         const response = await fetch('https://news-backend-ashy.vercel.app/api/trending_news/public');
+         const response = await fetch('https://news-vercel-ten.vercel.app/api/trending_news/public');
          if (response.ok) {
             const data = await response.json();
             const apiBlog = data.data.find((item: any) => item.slug === blogId);
@@ -363,7 +363,7 @@ export default async function Page({ params }: Props) {
    // If still not found, try to fetch from main_news API
    if (!single_blog) {
       try {
-         const response = await fetch('https://news-backend-ashy.vercel.app/api/main_news/public');
+         const response = await fetch('https://news-vercel-ten.vercel.app/api/main_news/public');
          if (response.ok) {
             const data = await response.json();
             const apiBlog = data.data.find((item: any) => item.slug === blogId);

@@ -1,5 +1,5 @@
-const API_URL = 'https://news-backend-ashy.vercel.app/api/main_news/public';
-const TRENDING_NEWS_URL = 'https://news-backend-ashy.vercel.app/api/trending_news/public';
+const API_URL = 'https://news-vercel-ten.vercel.app/api/main_news/public';
+const TRENDING_NEWS_URL = 'https://news-vercel-ten.vercel.app/api/trending_news/public';
 
 export const fetchMainNews = async () => {
    try {
