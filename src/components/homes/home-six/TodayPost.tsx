@@ -113,6 +113,7 @@ const TodayPost = () => {
       title: post.title,
       author: "நிர்வாகி",
       date: post.date,
+      time: post.time,
       video: post.videoUrl ? true : false
    })) : [];
 
@@ -165,7 +166,7 @@ const TodayPost = () => {
                         <ul className="list-wrap">
                         {/*   <li><i className="flaticon-user"></i>by<Link href="/author">Admin</Link></li> */}
                           <li><i className="flaticon-calendar"></i>{item.date}</li>
-                                <li><i className="flaticon-history"></i>{bannerData.mainPost.timeAgo}</li>
+                                <li><i className="flaticon-history"></i>{item.time}</li>
                         </ul>
                       </div>
                     </div>
