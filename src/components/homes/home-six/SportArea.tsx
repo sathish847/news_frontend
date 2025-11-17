@@ -29,7 +29,7 @@ interface NewsItem {
 
 const fetchNewsData = async () => {
    try {
-      const response = await fetch('https://news-backend-emfx.onrender.com/api/subnews/public');
+      const response = await fetch('https://news-backend-ashy.vercel.app/api/subnews/public');
       if (!response.ok) {
          throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -87,13 +87,13 @@ const SportArea = () => {
             src = thumb;
          } else {
             // Prepend server URL for filename
-            src = `https://news-backend-emfx.onrender.com/uploads/${thumb}`;
+            src = `https://news-backend-ashy.vercel.app/uploads/${thumb}`;
          }
       }
 
       // Handle object with filename property
       else if (thumb?.filename) {
-         src = `https://news-backend-emfx.onrender.com/uploads/${thumb.filename}`;
+         src = `https://news-backend-ashy.vercel.app/uploads/${thumb.filename}`;
       }
 
       // Handle object with path property
@@ -103,7 +103,7 @@ const SportArea = () => {
             src = thumb.path;
          } else {
             // Prepend server URL
-            src = `https://news-backend-emfx.onrender.com/uploads/${thumb.path}`;
+            src = `https://news-backend-ashy.vercel.app/uploads/${thumb.path}`;
          }
       }
 

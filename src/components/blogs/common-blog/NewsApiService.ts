@@ -1,4 +1,4 @@
-const ALL_NEWS_URL = 'https://news-backend-emfx.onrender.com/api/all_news';
+const ALL_NEWS_URL = 'https://news-backend-ashy.vercel.app/api/all_news';
 
 export const fetchAllNews = async () => {
    try {

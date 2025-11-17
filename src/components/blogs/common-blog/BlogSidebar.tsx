@@ -73,13 +73,13 @@ const BlogSidebar = () => {
             src = thumb;
          } else {
             // Prepend server URL for filename
-            src = `https://news-backend-emfx.onrender.com/uploads/${thumb}`;
+            src = `https://news-backend-ashy.vercel.app/uploads/${thumb}`;
          }
       }
 
       // Handle object with filename property
       else if (thumb?.filename) {
-         src = `https://news-backend-emfx.onrender.com/uploads/${thumb.filename}`;
+         src = `https://news-backend-ashy.vercel.app/uploads/${thumb.filename}`;
       }
 
       // Handle object with path property
@@ -89,7 +89,7 @@ const BlogSidebar = () => {
             src = thumb.path;
          } else {
             // Prepend server URL
-            src = `https://news-backend-emfx.onrender.com/uploads/${thumb.path}`;
+            src = `https://news-backend-ashy.vercel.app/uploads/${thumb.path}`;
          }
       }
 
