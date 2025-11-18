@@ -70,7 +70,7 @@ const BlogDetailsContent = ({ single_blog }: any) => {
             <div className="blog-details-thumb">
                {single_blog?.thumb ? <Image src={single_blog.thumb} alt="image" /> : <Image src={blogThumb_1} alt="image" />}
             </div>
-            {single_blog?.paragraphs && single_blog.paragraphs.map((para: string, index: number) => (
+            {single_blog?.paragraphs && single_blog.paragraphs.filter((para: string) => para.trim() !== "").map((para: string, index: number) => (
                <p key={index} className={index === 0 ? "first-info" : ""}>{para}</p>
             ))}
             {single_blog?.videoUrl ? (
