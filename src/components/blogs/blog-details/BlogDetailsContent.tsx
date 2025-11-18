@@ -11,14 +11,9 @@ import blogThumb_3 from "@/assets/img/blog/blog_details03.jpg"
 const BlogDetailsContent = ({ single_blog }: any) => {
 
    const [isVideoOpen, setIsVideoOpen] = useState(false);
-   const [copied, setCopied] = useState(false);
 
-   const handleShare = () => {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-         setCopied(true);
-         setTimeout(() => setCopied(false), 2000);
-      });
-   };
+   const title = single_blog?.title || "Emerging Global Trends in Leather and Fashion";
+   const url = typeof window !== 'undefined' ? window.location.href : '';
 
    // Show skeleton loading if no blog data
    if (!single_blog) {
@@ -61,9 +56,9 @@ const BlogDetailsContent = ({ single_blog }: any) => {
                      </ul>
                   </div>
                   <div className="blog-details-social">
-                     <a onClick={handleShare} className="share-link" style={{cursor: 'pointer'}}>
-                        {copied ? 'Link has been copied!' : <i className="fas fa-share-alt"></i>}
-                     </a>
+                     <ul className="list-wrap">
+                        <li><a href={`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`} target="_blank" rel="noopener noreferrer"><i className="fab fa-whatsapp"></i></a></li>
+                     </ul>
                   </div>
                </div>
             </div>

@@ -11,9 +11,157 @@ import Wrapper from "@/layouts/Wrapper";
 import FooterThree from "@/layouts/footers/FooterThree";
 import HeaderThree from "@/layouts/headers/HeaderThree";
 
-export const metadata: Metadata = {
-   title: "news",
-};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+   const { id } = await params;
+   const blogId = id.join('/');
+
+   // Fetch the same data as in the component
+   let single_blog: any;
+   // ... same data fetching logic as in the component ...
+
+   // First check in bannerData and todayPostData
+   const { bannerData, todayPostData, sidebarBannerData, recentPostsData } = await import("@/components/homes/home-six/HomeSixBannerData");
+   const topNewsData = (await import("@/components/homes/home-six/TopNewsData")).default;
+   const sportAreaData = (await import("@/components/homes/home-six/SportAreaData")).default;
+   const inner_blog_data = (await import("@/data/InnerBlogData")).default;
+
+   if (bannerData.mainPost.slug === blogId) {
+      single_blog = bannerData.mainPost;
+   } else {
+      single_blog = bannerData.smallPosts.find((item) => item.slug === blogId);
+   }
+
+   if (!single_blog) {
+      single_blog = todayPostData.find((item) => item.slug === blogId);
+   }
+
+   if (!single_blog) {
+      single_blog = sidebarBannerData.find((item) => item.slug === blogId);
+   }
+
+   if (!single_blog) {
+      single_blog = recentPostsData.find((item) => item.slug === blogId);
+   }
+
+   // If not found in HomeSixBannerData, check InnerBlogData
+   if (!single_blog) {
+      const blog_data = inner_blog_data.filter(items => items.page === "blog_1");
+      single_blog = blog_data.find((item) => item.slug === blogId || String(item.id) === blogId);
+   }
+
+   // If not found in InnerBlogData, check TopNewsData
+   if (!single_blog) {
+      single_blog = topNewsData.find((item) => item.slug === blogId);
+   }
+
+   // If not found in TopNewsData, check SportAreaData
+   if (!single_blog) {
+      single_blog = sportAreaData.find((item) => item.slug === blogId);
+   }
+
+   // If not found in SportAreaData, check SpotlightData
+   if (!single_blog) {
+      const spotlight_data = await (await import("@/components/homes/category-news/SpotlightData")).getSpotlightData();
+      single_blog = spotlight_data.find((item) => item.slug === blogId);
+   }
+
+   // If not found in SpotlightData, check WeeklyData
+   if (!single_blog) {
+      const weeklyData = await (await import("@/components/homes/category-news/SpotlightData")).getWeeklyData();
+      single_blog = weeklyData.find((item) => item.slug === blogId);
+   }
+
+   // If not found in WeeklyData, check WeeklySidebarData
+   if (!single_blog) {
+      const weeklySidebarData = await (await import("@/components/homes/category-news/SpotlightData")).getWeeklySidebarData();
+      single_blog = weeklySidebarData.find((item) => item.slug === blogId);
+   }
+
+   // If not found in static data, try to fetch from APIs
+   if (!single_blog) {
+      const apiEndpoints = [
+         'https://news-vercel-ten.vercel.app/api/news/public',
+         'https://news-vercel-ten.vercel.app/api/subnews/public',
+         'https://news-vercel-ten.vercel.app/api/mini_news/public',
+         'https://news-vercel-ten.vercel.app/api/trending_news/public',
+         'https://news-vercel-ten.vercel.app/api/main_news/public'
+      ];
+
+      for (const endpoint of apiEndpoints) {
+         try {
+            const response = await fetch(endpoint, { next: { revalidate: 3600 } });
+            if (response.ok) {
+               const data = await response.json();
+               if (data.data && Array.isArray(data.data)) {
+                  const apiBlog = data.data.find((item: any) => item.slug === blogId);
+                  if (apiBlog) {
+                     single_blog = {
+                        title: apiBlog.title || "News Title",
+                        excerpt: apiBlog.excerpt || apiBlog.description || "",
+                        thumb: apiBlog.thumb?.data ? `data:${apiBlog.thumb.mimetype};base64,${Buffer.from(apiBlog.thumb.data).toString('base64')}` : undefined,
+                        tag: apiBlog.tag || apiBlog.category || "News",
+                     };
+                     break;
+                  }
+               }
+            }
+         } catch (error) {
+            console.warn(`Failed to fetch from ${endpoint}:`, error);
+         }
+      }
+   }
+
+   const title = single_blog?.title || "News Article";
+   const description = single_blog?.excerpt || "Read the latest news article";
+   const baseUrl = 'https://news-updated01.netlify.app';
+   const articleUrl = `${baseUrl}/news-details/${blogId}`;
+
+   // Handle image URL - ensure it's a proper HTTPS URL, not base64
+   let imageUrl = `${baseUrl}/logo.png`; // fallback to logo
+   if (single_blog?.thumb) {
+      if (typeof single_blog.thumb === 'string' && single_blog.thumb.startsWith('http')) {
+         imageUrl = single_blog.thumb;
+      } else if (single_blog.thumb.src && single_blog.thumb.src.startsWith('http')) {
+         imageUrl = single_blog.thumb.src;
+      }
+      // For base64 or data URLs, Facebook can't crawl them, so we keep the fallback
+   }
+
+   return {
+      title: title,
+      description: description,
+      metadataBase: new URL(baseUrl),
+      alternates: {
+         canonical: articleUrl,
+      },
+      openGraph: {
+         title: title,
+         description: description,
+         url: articleUrl,
+         siteName: 'News Updated',
+         type: 'article',
+         images: [
+            {
+               url: imageUrl,
+               width: 1200,
+               height: 630,
+               alt: title,
+            },
+         ],
+      },
+      twitter: {
+         card: 'summary_large_image',
+         title: title,
+         description: description,
+         images: [imageUrl],
+      },
+      other: {
+         'og:image:secure_url': imageUrl,
+         'og:image:width': '1200',
+         'og:image:height': '630',
+      },
+   };
+}
 
 export async function generateStaticParams() {
    const slugs = new Set<string>();
