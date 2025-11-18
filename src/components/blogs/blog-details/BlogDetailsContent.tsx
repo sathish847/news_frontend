@@ -62,10 +62,47 @@ const BlogDetailsContent = ({ single_blog }: any) => {
                      </ul>
                   </div>
                   <div className="blog-details-social">
-                     <ul className="list-wrap">
-                        <li><a href={`https://wa.me/?text=${encodeURIComponent(title + ' ' + currentUrl)}`} target="_blank" rel="noopener noreferrer"><i className="fab fa-whatsapp"></i></a></li>
-                        <li><a href={`https://www.facebook.com/share.php?u=${encodeURIComponent(currentUrl)}`} rel="nofollow" target="_blank" aria-label="facebook"><svg id="Bold" enableBackground="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" xmlns="https://www.w3.org/2000/svg"><path fill="#000" d="m15.997 3.985h2.191v-3.816c-.378-.052-1.678-.169-3.192-.169-3.159 0-5.323 1.987-5.323 5.639v3.361h-3.486v4.266h3.486v10.734h4.274v-10.733h3.345l.531-4.266h-3.877v-2.939c.001-1.233.333-2.077 2.051-2.077z"></path></svg></a></li>
-                     </ul>
+                     <ul className="list-wrap flex gap-2">
+  {/* WhatsApp */}
+  <li className="list-none border-none bg-transparent">
+    <a
+      href={`https://wa.me/?text=${encodeURIComponent(title + " " + currentUrl)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Share on WhatsApp"
+      className="bg-transparent"
+      style={{ width: '48px', height: '48px' }}
+    >
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+        alt="WhatsApp"
+        width="48"
+        height="48"
+        className="w-12 h-12"
+      />
+    </a>
+  </li>
+
+  {/* Facebook */}
+  <li className="list-none border-none bg-transparent">
+    <a
+      href={`https://www.facebook.com/share.php?u=${encodeURIComponent(currentUrl)}`}
+      target="_blank"
+      rel="nofollow noopener noreferrer"
+      aria-label="Share on Facebook"
+      className="bg-transparent"
+      style={{ width: '40px', height: '40px' }}
+    >
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+        alt="Facebook"
+        width="40"
+        height="40"
+        className="w-10 h-10"
+      />
+    </a>
+  </li>
+</ul>
                   </div>
                </div>
             </div>
