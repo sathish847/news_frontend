@@ -130,14 +130,14 @@ export const getWeeklySidebarData = async (): Promise<DataType[]> => {
       page: item.page || "home_2",
       category: item.category || "General",
       slug: item.slug || `news-${item._id || index + 1}`,
-      thumb: item.thumb?.data ? { src: `data:${item.thumb.mimetype};base64,${Buffer.from(item.thumb.data).toString('base64')}`, width: 400, height: 250, blurDataURL: `data:${item.thumb.mimetype};base64,${Buffer.from(item.thumb.data).toString('base64')}` } : spotlightThumb_1,
+      thumb: item.thumb?.data ? { src: `data:${item.thumb.mimetype};base64,${item.thumb.data}`, width: 400, height: 250, blurDataURL: `data:${item.thumb.mimetype};base64,${item.thumb.data}` } : spotlightThumb_1,
       tag: item.tag || item.category || "News",
       title: item.title || "News Title",
       excerpt: item.excerpt || item.description || "",
       date: item.date || (item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : "Recent"),
       time: item.time || (item.createdAt ? new Date(item.createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : "12:00pm"),
       paragraphs: item.paragraphs || [],
-      images: item.images?.map((img: any) => ({ src: `data:${img.mimetype};base64,${Buffer.from(img.data).toString('base64')}`, width: 400, height: 250, blurDataURL: `data:${img.mimetype};base64,${Buffer.from(img.data).toString('base64')}` })) || [],
+      images: item.images?.map((img: any) => ({ src: `data:${img.mimetype};base64,${img.data}`, width: 400, height: 250, blurDataURL: `data:${img.mimetype};base64,${img.data}` })) || [],
       videoUrl: item.videoUrl || ""
     }));
 
