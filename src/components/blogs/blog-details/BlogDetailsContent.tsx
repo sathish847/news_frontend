@@ -2,6 +2,8 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import VideoPopup from "@/modals/VideoPopup"
 
 import blogThumb_1 from "@/assets/img/blog/blog_details01.jpg"
@@ -20,6 +22,15 @@ const BlogDetailsContent = ({ single_blog }: any) => {
          setCurrentUrl(window.location.href);
       }
    }, []);
+
+   const handleCopyLink = async () => {
+      try {
+         await navigator.clipboard.writeText(currentUrl);
+         toast.success("Link copied successfully!");
+      } catch (err) {
+         toast.error("Failed to copy link");
+      }
+   };
 
    // Show skeleton loading if no blog data
    if (!single_blog) {
@@ -102,6 +113,38 @@ const BlogDetailsContent = ({ single_blog }: any) => {
       />
     </a>
   </li>
+
+  {/* Telegram */}
+  <li className="list-none border-none bg-transparent">
+    <a
+      href={`https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Share on Telegram"
+      className="bg-transparent"
+      style={{ width: '40px', height: '40px' }}
+    >
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
+        alt="Telegram"
+        width="40"
+        height="40"
+        className="w-10 h-10"
+      />
+    </a>
+  </li>
+
+  {/* Copy Link */}
+  <li className="list-none border-none bg-transparent">
+    <button
+      onClick={handleCopyLink}
+      aria-label="Copy link"
+      className="bg-transparent border-none cursor-pointer flex items-center justify-center"
+      style={{ width: '40px', height: '40px' }}
+    >
+      <i className="fas fa-copy text-gray-600 hover:text-gray-800 transition-colors" style={{ fontSize: '20px' }}></i>
+    </button>
+  </li>
 </ul>
                   </div>
                </div>
@@ -136,6 +179,7 @@ const BlogDetailsContent = ({ single_blog }: any) => {
             videoId={single_blog?.videoUrl || "Ml4XCF-JS0k"}
          />
          {/* video modal end */}
+         <ToastContainer />
       </>
    )
 }
