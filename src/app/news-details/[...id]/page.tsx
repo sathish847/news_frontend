@@ -463,14 +463,14 @@ export default async function Page({ params }: Props) {
             }
          }
       } catch (error) {
-         console.error('Error fetching blog from mini_news API:', error);
+         console.error('Error fetching blog from subnews API:', error);
       }
    }
 
-   // If still not found, try to fetch from trending_news API
+   // If still not found, try to fetch from mini_news API
    if (!single_blog) {
       try {
-         const response = await fetch('https://news-vercel-ten.vercel.app/api/trending_news/public');
+         const response = await fetch('https://news-vercel-ten.vercel.app/api/mini_news/public');
          if (response.ok) {
             const data = await response.json();
             const apiBlog = data.data.find((item: any) => item.slug === blogId);

@@ -155,9 +155,28 @@ const BlogDetailsContent = ({ single_blog }: any) => {
             {single_blog?.paragraphs && single_blog.paragraphs.filter((para: string) => para.trim() !== "").map((para: string, index: number) => {
                // Clean the paragraph by removing quotes from start and end
                const cleanedPara = para.replace(/^["\[]+|["\]]+$/g, '');
-               return (
-                  <p key={index} className={index === 0 ? "first-info" : ""}>{cleanedPara}</p>
-               );
+               // Split paragraphs by double newlines or single newlines if they contain multiple paragraphs
+               const individualParagraphs = cleanedPara.split(/\n\s*\n/).filter(p => p.trim() !== "");
+
+               // Zodiac signs to make bold
+               const zodiacSigns = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
+
+               return individualParagraphs.map((individualPara: string, paraIndex: number) => {
+                  // Make zodiac signs bold
+                  let processedPara = individualPara.trim();
+                  zodiacSigns.forEach(sign => {
+                     const regex = new RegExp(sign, 'g');
+                     processedPara = processedPara.replace(regex, `<strong>${sign}</strong>`);
+                  });
+
+                  return (
+                     <p
+                        key={`${index}-${paraIndex}`}
+                        className={index === 0 && paraIndex === 0 ? "first-info" : ""}
+                        dangerouslySetInnerHTML={{ __html: processedPara }}
+                     />
+                  );
+               });
             })}
             {single_blog?.videoUrl ? (
                <div className="blog-details-video">
