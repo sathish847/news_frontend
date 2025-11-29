@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# News Website
 
-## Getting Started
+A modern Next.js news website with responsive design and multiple data sources.
 
-First, run the development server:
+## Features
 
+- **Next.js Framework**: Built with Next.js 15 for optimal performance
+- **Multiple Data Sources**: Fetches data from various news APIs
+- **Static Generation**: Uses Next.js static generation for fast loading
+- **Responsive Design**: Mobile-friendly news website
+- **SEO Optimized**: Proper meta tags and structured data
+
+## Setup
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd zaira-v1.3
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Learn More
+## Build Commands
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Development
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Production build
+npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Start production server
+npm start
 
-## Deploy on Vercel
+# Lint code
+npm run lint
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+src/
+├── app/                 # Next.js app directory
+│   ├── news-details/    # News detail pages
+│   ├── blog/           # Blog pages
+│   └── layout.tsx      # Root layout
+├── components/         # React components
+│   ├── blogs/         # Blog-related components
+│   ├── common/        # Shared components
+│   └── homes/         # Homepage components
+├── data/              # Static data files
+├── layouts/           # Layout components
+└── styles/            # Global styles
+```
+
+## API Integration
+
+The application integrates with multiple news APIs:
+
+- News API (`/api/news/public`)
+- Subnews API (`/api/subnews/public`)
+- Mini News API (`/api/mini_news/public`)
+- Trending News API (`/api/trending_news/public`)
+- Main News API (`/api/main_news/public`)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.

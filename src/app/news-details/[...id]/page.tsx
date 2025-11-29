@@ -13,7 +13,7 @@ import HeaderThree from "@/layouts/headers/HeaderThree";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
    const { id } = await params;
-   const blogId = id.join('/');
+   const blogId = decodeURIComponent(id.join('/'));
 
    // Fetch the same data as in the component
    let single_blog: any;
@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
       for (const endpoint of apiEndpoints) {
          try {
-            const response = await fetch(endpoint, { next: { revalidate: 3600 } });
+            const response = await fetch(endpoint, { cache: 'no-store' });
             if (response.ok) {
                const data = await response.json();
                if (data.data && Array.isArray(data.data)) {
@@ -253,7 +253,7 @@ export async function generateStaticParams() {
 
    for (const endpoint of apiEndpoints) {
       try {
-         const response = await fetch(endpoint, { next: { revalidate: 3600 } }); // Cache for 1 hour
+         const response = await fetch(endpoint, { cache: 'no-store' });
          if (response.ok) {
             const data = await response.json();
             if (data.data && Array.isArray(data.data)) {
@@ -284,7 +284,7 @@ type Props = {
 export default async function Page({ params }: Props) {
 
    const { id } = await params;
-   const blogId = id.join('/');
+   const blogId = decodeURIComponent(id.join('/'));
 
    // Fetch dynamic data
    const spotlight_data = await getSpotlightData();
@@ -471,6 +471,47 @@ export default async function Page({ params }: Props) {
    if (!single_blog) {
       try {
          const response = await fetch('https://news-vercel-ten.vercel.app/api/mini_news/public');
+         if (response.ok) {
+            const data = await response.json();
+            const apiBlog = data.data.find((item: any) => item.slug === blogId);
+            if (apiBlog) {
+               // Transform API data to match the expected format
+               single_blog = {
+                  id: apiBlog._id || apiBlog.id,
+                  page: apiBlog.page || "home_2",
+                  category: apiBlog.category || "General",
+                  slug: apiBlog.slug,
+                  thumb: apiBlog.thumb?.data ? {
+                     src: `data:${apiBlog.thumb.mimetype};base64,${Buffer.from(apiBlog.thumb.data).toString('base64')}`,
+                     width: 400,
+                     height: 250,
+                     blurDataURL: `data:${apiBlog.thumb.mimetype};base64,${Buffer.from(apiBlog.thumb.data).toString('base64')}`
+                  } : undefined,
+                  tag: apiBlog.tag || apiBlog.category || "News",
+                  title: apiBlog.title || "News Title",
+                  excerpt: apiBlog.excerpt || apiBlog.description || "",
+                  date: apiBlog.date || (apiBlog.createdAt ? new Date(apiBlog.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : "Recent"),
+                  time: apiBlog.time || (apiBlog.createdAt ? new Date(apiBlog.createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : "12:00pm"),
+                  paragraphs: Array.isArray(apiBlog.paragraphs) ? apiBlog.paragraphs : [apiBlog.paragraphs || ""],
+                  images: apiBlog.images?.map((img: any) => ({
+                     src: `data:${img.mimetype};base64,${Buffer.from(img.data).toString('base64')}`,
+                     width: 400,
+                     height: 250,
+                     blurDataURL: `data:${img.mimetype};base64,${Buffer.from(img.data).toString('base64')}`
+                  })) || [],
+                  videoUrl: apiBlog.videoUrl || ""
+               };
+            }
+         }
+      } catch (error) {
+         console.error('Error fetching blog from trending_news API:', error);
+      }
+   }
+
+   // If still not found, try to fetch from trending_news API
+   if (!single_blog) {
+      try {
+         const response = await fetch('https://news-vercel-ten.vercel.app/api/trending_news/public');
          if (response.ok) {
             const data = await response.json();
             const apiBlog = data.data.find((item: any) => item.slug === blogId);
